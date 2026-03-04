@@ -1,8 +1,13 @@
 # k8s-project
 
 🔹 Project Components
+
+
 1. Backend (Python API)
-Dockerfile (backend/Dockerfile):
+
+**Dockerfile (backend/Dockerfile):**
+
+
 FROM python:3.9-slim
 WORKDIR /app
 COPY requirements.txt .
@@ -11,12 +16,14 @@ COPY . .
 CMD ["python", "app.py"]
 
 
-requirements.txt:
+**requirements.txt:**
+
 flask==2.2.5
 pytest==7.4.4
 
 
-app.py:
+**app.py:**
+
 from flask import Flask
 app = Flask(__name__)
 
@@ -27,13 +34,15 @@ def hello():
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
 
-2. Frontend (Nginx)
+**2. Frontend (Nginx)**
+
 Dockerfile (frontend/Dockerfile):
 FROM nginx:alpine
 COPY index.html /usr/share/nginx/html/index.html
 
 
-index.html:
+**index.html:**
+
 <!DOCTYPE html>
 <html>
 <head><title>Frontend</title></head>
@@ -45,7 +54,9 @@ index.html:
 
 
 🔹 Kubernetes Manifests
-Backend Deployment (k8s/backend-deploy.yaml)
+
+**Backend Deployment (k8s/backend-deploy.yaml)**
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -79,9 +90,8 @@ spec:
       targetPort: 5000
 
 
+**Frontend Deployment (k8s/frontend-deploy.yaml)**
 
-
-Frontend Deployment (k8s/frontend-deploy.yaml)
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -118,23 +128,26 @@ spec:
 
 
 🔹 Scaling & Rolling Updates
-- Scale replicas:
+**- Scale replicas:**
+  
 kubectl scale deployment backend-deployment --replicas=5
 
 
-- Rolling update: Update image version in YAML:
+**- Rolling update: Update image version in YAML:**
+
 containers:
 - name: backend
   image: backend:v2
 
+**Apply changes:**
 
-Apply changes:
 kubectl apply -f k8s/backend-deploy.yaml
 kubectl rollout status deployment backend-deployment
 
 
 🔹 GitHub Actions Pipeline
-.github/workflows/deploy.yaml
+**.github/workflows/deploy.yaml**
+
 name: CI/CD Pipeline
 
 on:
