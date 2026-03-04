@@ -29,6 +29,10 @@ jobs:
       run: |
         kubectl apply -f k8s/backend-deploy.yaml
         kubectl apply -f k8s/frontend-deploy.yaml
+    - name: Create kind cluster
+      run: kind create cluster --wait 60s
+    - name: Load backend image
+      run: kind load docker-image backend:latest
 
     - name: Verify Deployment
       run: kubectl get pods
