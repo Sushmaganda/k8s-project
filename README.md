@@ -5,8 +5,11 @@
 
 1. Backend (Python API)
 
-**Dockerfile (backend/Dockerfile):**
 
+
+
+
+**Dockerfile (backend/Dockerfile):**
 
 FROM python:3.9-slim
 WORKDIR /app
