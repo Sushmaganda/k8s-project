@@ -36,14 +36,6 @@ jobs:
         kubectl apply -f k8s/backend-deploy.yaml
         kubectl apply -f k8s/frontend-deploy.yaml
 
-    - name: Scale Replicas
-      run: kubectl scale deployment backend-deployment --replicas=5
-
-    - name: Rolling Update Demo
-      run: |
-       kubectl set image deployment backend-deployment backend=backend:v2
-       kubectl rollout status deployment backend-deployment
-
     
     - name: Verify Deployment
       run: kubectl get pods
