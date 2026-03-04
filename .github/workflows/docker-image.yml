@@ -1,0 +1,34 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Backend Image
+      run: docker build -t backend:latest ./backend
+
+    - name: Build Frontend Image
+      run: docker build -t frontend:latest ./frontend
+
+    - name: Load Images into Kind
+      run: |
+        kind load docker-image backend:latest
+        kind load docker-image frontend:latest
+
+    - name: Apply Kubernetes Manifests
+      run: |
+        kubectl apply -f k8s/backend-deploy.yaml
+        kubectl apply -f k8s/frontend-deploy.yaml
+
+    - name: Verify Deployment
+      run: kubectl get pods
